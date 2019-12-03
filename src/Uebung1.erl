@@ -14,7 +14,13 @@
 
 %% Aufgabe 1 a)
 createList() ->
-  lists:seq(0,100).
+  createList(0,100).
+createList(From, To) ->
+  createList(To, From, []).
+createList(To, I, List) when I > To ->
+  List;
+createList(To, I, List) ->
+  createList(To, I + 1, List ++ [I]).
 
 
 %% Aufgabe 1 b)
@@ -123,3 +129,8 @@ getRightHalf([H|T], Right, I, EntireLength) ->
   getRightHalf(T, Right ++ [H], I + 1, EntireLength);
 getRightHalf([], Right, _,  _) ->
   Right.
+
+
+%% Aufgabe 4
+
+
