@@ -10,11 +10,11 @@
 -author("likro").
 
 %% API
--export([createList/0, getVielfache/1, getLast/1, shiftRight/1, getFibonacci/1, getSumOfInverse/1, sort/1]).
+-export([createList/0, getVielfache/1, getLast/1, shiftRight/1, getFibonacci/1, getSumOfInverse/1, sort/1, removeFromList/2, removeListFromList/2, getPrimes/1]).
 
 %% Aufgabe 1 a)
 createList() ->
-  createList(0,100).
+  createList(1,100).
 createList(From, To) ->
   createList(To, From, []).
 createList(To, I, List) when I > To ->
@@ -25,12 +25,14 @@ createList(To, I, List) ->
 
 %% Aufgabe 1 b)
 getVielfache(A) ->
-  getVielfache([A], A, A).
+  getVielfache(A, 100).
+getVielfache(A, Max) ->
+  getVielfache([], A, A, Max).
 
-getVielfache(L, ToAdd, Sum) when Sum + ToAdd < 100 ->
-  getVielfache(L ++ [Sum + ToAdd], ToAdd, Sum + ToAdd);
-getVielfache(L, ToAdd, Counter) when Counter + ToAdd >= 100 ->
-  [L].
+getVielfache(L, ToAdd, Sum, Max) when Sum + ToAdd =< Max ->
+  getVielfache(L ++ [Sum + ToAdd], ToAdd, Sum + ToAdd, Max);
+getVielfache(L, ToAdd, Counter, Max) when Counter + ToAdd > Max ->
+  L.
 
 
 %% Aufgabe 1 c)
@@ -113,7 +115,8 @@ merge([LH|LT], [], SortList)  ->
 merge([], [], SortList) ->
   SortList.
 
-%% left get the middle element
+%% helper method to get the left and the right half of a list
+%% left get the middle element, if it exists
 getLeftHalf(List) ->
   getLeftHalf(List, [], 0 , length(List)).
 getLeftHalf([H|T], Left, I, EntireLength) when I < round(EntireLength / 2) ->
@@ -132,5 +135,29 @@ getRightHalf([], Right, _,  _) ->
 
 
 %% Aufgabe 4
+%% Calculates all primes in the given range with the method Sieve of Eratosthenes.
+getPrimes(N) ->
+  getPrimes(createList(2, N), N, []).
+getPrimes([], _ , Primes) ->
+  Primes;
+getPrimes([WorkingListH | WorkingListT], N, Primes) ->
+  getPrimes(removeListFromList(WorkingListT, getVielfache(WorkingListH, N)), N, Primes ++ [WorkingListH]).
+
+
+%% Helper method to remove all occurrences of a given value from a list
+removeFromList(RemoveFrom, ToRemove) ->
+  removeFromList(RemoveFrom, ToRemove, []).
+removeFromList([], _, WorkList) ->
+  WorkList;
+removeFromList([RemoveFromH | RemoveFromT], ToRemove, WorkList) when RemoveFromH == ToRemove ->
+  removeFromList(RemoveFromT, ToRemove, WorkList);
+removeFromList([RemoveFromH | RemoveFromT], ToRemove, WorkList) ->
+  removeFromList(RemoveFromT, ToRemove, WorkList ++ [RemoveFromH]).
+
+%%helper method to remove a list of values form a list
+removeListFromList(RemoveFrom, []) ->
+  RemoveFrom;
+removeListFromList(RemoveFrom, [ToRemoveH | ToRemoveT]) ->
+  removeListFromList(removeFromList(RemoveFrom, ToRemoveH), ToRemoveT).
 
 
