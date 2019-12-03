@@ -10,7 +10,7 @@
 -author("likro").
 
 %% API
--export([createList/0, getVielfache/1, getLast/1, shiftRight/1, getFibonacci/1, getSumOfInverse/1, sort/1, removeFromList/2, removeListFromList/2, getPrimes/1]).
+-export([createList/0, getVielfache/1, getLast/1, shiftRight/1, getFibonacci/1, getSumOfInverse/1, sort/1, getPrimes/1]).
 
 %% Aufgabe 1 a)
 createList() ->
