@@ -10,7 +10,7 @@
 -author("likro").
 
 %% API
--export([createList/0, getVielfache/1, getLast/1, shiftRight/1, getFibonacci/1]).
+-export([createList/0, getVielfache/1, getLast/1, shiftRight/1, getFibonacci/1, getSumOfInverse/1]).
 
 %% Aufgabe 1 a)
 createList() ->
@@ -52,3 +52,13 @@ getFibonacci(N, I, List, _, _) when I >= N ->
   List;
 getFibonacci(N, I, List, LastElement, SecondLastElement) ->
   getFibonacci(N, I + 1, List ++ [SecondLastElement + LastElement], SecondLastElement + LastElement, LastElement).
+
+
+%% Aufgabe 2 b)
+getSumOfInverse(N) ->
+  getSumOfInverse(N , 1, 0).
+getSumOfInverse(N, I, Sum) when I > N ->
+  Sum;
+getSumOfInverse(N, I, Sum) ->
+  getSumOfInverse(N, I + 1, Sum + (1 / I)).
+
